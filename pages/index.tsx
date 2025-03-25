@@ -2,10 +2,21 @@ import React from 'react';
 import Head from 'next/head';
 import { useAuth } from '../utils/AuthContext';
 import LoginForm from '../components/auth/LoginForm';
-import Dashboard from './dashboard';
+import { useRouter } from 'next/router';
+import Loading from '../components/shared/Loading';
 
 const Home: React.FC = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  // Redirect to dashboard if logged in
+  React.useEffect(() => {
+    if (user && !isLoading) {
+      router.push('/dashboard');
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <div>
@@ -16,7 +27,7 @@ const Home: React.FC = () => {
       </Head>
 
       <main className="min-h-screen">
-        {user ? <Dashboard /> : <LoginForm />}
+        {user ? <Loading /> : <LoginForm />}
       </main>
     </div>
   );

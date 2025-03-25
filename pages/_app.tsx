@@ -1,18 +1,18 @@
-import React from 'react';
-import { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { AuthProvider } from '../utils/AuthContext';
 import '../styles/globals.css';
-
-const queryClient = new QueryClient();
+import type { AppProps } from 'next/app';
+import { AuthProvider } from '../utils/AuthContext';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Component {...pageProps} />
-      </AuthProvider>
-    </QueryClientProvider>
+    <AuthProvider>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="SkinHealth app for analyzing skin health" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Component {...pageProps} />
+    </AuthProvider>
   );
 }
 
