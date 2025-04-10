@@ -1,11 +1,16 @@
 import React from 'react';
 import Card from '../shared/Card';
+import { useUserMode } from '../../utils/UserModeContext';
+import { modeSpecificContent } from '../../utils/mockData';
 
 interface RecommendationsProps {
   recommendations: string[];
 }
 
-const Recommendations: React.FC<RecommendationsProps> = ({ recommendations }) => {
+const Recommendations: React.FC<RecommendationsProps> = () => {
+  const { mode } = useUserMode();
+  const { recommendations } = modeSpecificContent[mode];
+
   return (
     <Card title="Recommendations">
       <ul className="divide-y">

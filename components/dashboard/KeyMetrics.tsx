@@ -1,5 +1,7 @@
 import React from 'react';
 import Card from '../shared/Card';
+import { useUserMode } from '../../utils/UserModeContext';
+import { modeSpecificContent } from '../../utils/mockData';
 
 interface KeyMetricsProps {
   healthScore: number;
@@ -7,8 +9,11 @@ interface KeyMetricsProps {
 }
 
 const KeyMetrics: React.FC<KeyMetricsProps> = ({ healthScore, hydrationLevel }) => {
+  const { mode } = useUserMode();
+  const content = modeSpecificContent[mode];
+
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Card className="text-center">
         <h3 className="text-lg text-gray-600">Health Score</h3>
         <div className="mt-2 flex justify-center">
@@ -30,6 +35,7 @@ const KeyMetrics: React.FC<KeyMetricsProps> = ({ healthScore, hydrationLevel }) 
             <span className="text-3xl font-bold">{healthScore}</span>
           </div>
         </div>
+        <p className="mt-3 text-sm text-gray-600 px-4">{content.healthScoreDescription}</p>
       </Card>
       
       <Card className="text-center">
@@ -53,6 +59,7 @@ const KeyMetrics: React.FC<KeyMetricsProps> = ({ healthScore, hydrationLevel }) 
             <span className="text-3xl font-bold">{hydrationLevel}</span>
           </div>
         </div>
+        <p className="mt-3 text-sm text-gray-600 px-4">{content.hydrationDescription}</p>
       </Card>
     </div>
   );

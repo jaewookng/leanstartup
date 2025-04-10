@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../utils/AuthContext';
-import { mockSkinData, mockRecommendations } from '../../utils/mockData';
+import { mockSkinData } from '../../utils/mockData';
 import Header from './Header';
 import KeyMetrics from './KeyMetrics';
 import Recommendations from './Recommendations';
@@ -47,7 +47,7 @@ const DashboardContent: React.FC = () => {
             hydrationLevel={skinData.hydrationLevel} 
           />
           
-          <Recommendations recommendations={mockRecommendations} />
+          <Recommendations recommendations={[]} />
           
           <FullReportSection skinData={skinData} />
         </div>

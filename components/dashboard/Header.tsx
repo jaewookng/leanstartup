@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../utils/AuthContext';
 import Button from '../shared/Button';
+import UserModeSlider from '../shared/UserModeSlider';
 
 const Header: React.FC = () => {
   const { logout } = useAuth();
@@ -11,7 +12,10 @@ const Header: React.FC = () => {
         <div className="flex items-center">
           <h1 className="text-xl font-bold text-blue-600">SkinHealth</h1>
         </div>
-        <Button variant="outline" onClick={logout}>Logout</Button>
+        <div className="flex items-center space-x-4">
+          <UserModeSlider />
+          <Button variant="outline" onClick={logout}>Logout</Button>
+        </div>
       </div>
     </header>
   );
