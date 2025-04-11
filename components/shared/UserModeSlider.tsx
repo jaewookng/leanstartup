@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useUserMode, UserMode } from '../../utils/UserModeContext';
 
 const UserModeSlider: React.FC = () => {
   const { mode, setMode } = useUserMode();
+  const [pillStyle, setPillStyle] = useState({ width: '0px', transform: 'translateX(0px)' });
+  const buttonRefs = {
+    consumer: useRef<HTMLButtonElement>(null),
+    student: useRef<HTMLButtonElement>(null),
+    scientist: useRef<HTMLButtonElement>(null)
+  };
 
   // SVG icons for each mode (simplified representations)
   const icons = {
@@ -29,32 +35,54 @@ const UserModeSlider: React.FC = () => {
     student: 'Student',
     scientist: 'Scientist'
   };
+
+  // Update pill dimensions when mode changes or window resizes
+  useEffect(() => {
+    const updatePillStyle = () => {
+      const activeButton = buttonRefs[mode]?.current;
+      
+      if (activeButton) {
+        // Add a small padding to the width for better appearance
+        const width = activeButton.offsetWidth + 4;
+        const offsetLeft = activeButton.offsetLeft;
+        
+        setPillStyle({
+          width: `${width}px`,
+          transform: `translateX(${offsetLeft}px)`
+        });
+      }
+    };
+
+    // Update on mode change
+    updatePillStyle();
+
+    // Update on window resize
+    window.addEventListener('resize', updatePillStyle);
+    return () => window.removeEventListener('resize', updatePillStyle);
+  }, [mode]);
   
   return (
-    <div className="flex items-center space-x-3">
-      <span className="text-xs text-gray-500 whitespace-nowrap">Mode:</span>
-      <div className="bg-gray-100 p-1 rounded-full flex relative shadow-sm">
-        {Object.entries(modeLabels).map(([key, label], index) => (
+    <div className="flex items-center justify-center">
+      <div className="bg-gray-100 p-0.5 rounded-full flex relative shadow-sm">
+        {Object.entries(modeLabels).map(([key, label]) => (
           <button
             key={key}
+            ref={buttonRefs[key as UserMode]}
             onClick={() => setMode(key as UserMode)}
-            className="relative z-10 flex items-center justify-center h-7 px-3 rounded-full text-xs font-medium transition-colors duration-200"
+            className="relative z-10 flex items-center justify-center h-6 px-2 rounded-full text-xs font-medium transition-colors duration-200"
             aria-pressed={mode === key}
           >
-            <div className="flex items-center space-x-1.5">
+            <div className="flex items-center space-x-1">
               <span className="text-current">{icons[key as UserMode]}</span>
-              <span>{label}</span>
+              <span className="text-xs">{label}</span>
             </div>
           </button>
         ))}
         
         {/* Active background pill that slides */}
         <div 
-          className="absolute top-1 left-1 h-7 rounded-full bg-white shadow-md transition-all duration-200 ease-in-out z-0"
-          style={{ 
-            width: mode === 'scientist' ? '82px' : mode === 'student' ? '70px' : '82px',
-            transform: `translateX(${mode === 'scientist' ? '152px' : mode === 'student' ? '81px' : '0px'})`,
-          }}
+          className="absolute top-0.5 left-0.5 h-6 rounded-full bg-white shadow-md transition-all duration-200 ease-in-out z-0"
+          style={pillStyle}
         ></div>
       </div>
     </div>

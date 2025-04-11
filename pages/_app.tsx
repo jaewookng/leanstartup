@@ -9,8 +9,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <UserModeProvider>
         <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta name="description" content="SkinHealth app for analyzing skin health" />
+          <title>GlowVision</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="description" content="GlowVision app for analyzing skin health" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Component {...pageProps} />

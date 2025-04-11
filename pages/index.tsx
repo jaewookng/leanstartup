@@ -21,7 +21,7 @@ const Home: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>SkinHealth App</title>
+        <title>GlowVision App</title>
         <meta name="description" content="Skin health analysis app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
