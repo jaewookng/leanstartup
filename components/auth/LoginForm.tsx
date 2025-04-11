@@ -3,10 +3,12 @@ import { useAuth } from '../../utils/AuthContext';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
 import Loading from '../shared/Loading';
+import { QrReader } from 'react-qr-reader';
 
 const LoginForm: React.FC = () => {
   const [sampleCode, setSampleCode] = useState('');
   const [error, setError] = useState('');
+  const [showScanner, setShowScanner] = useState(false);
   const { login, isLoading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,6 +24,18 @@ const LoginForm: React.FC = () => {
     if (!success) {
       setError('Invalid sample code. Please try again.');
     }
+  };
+
+  const handleScan = (result: any) => {
+    if (result) {
+      setSampleCode(result?.text || '');
+      setShowScanner(false);
+    }
+  };
+
+  const handleScanError = (error: any) => {
+    console.error('QR scan error:', error);
+    setError('Failed to scan QR code. Please try again or enter the code manually.');
   };
 
   if (isLoading) return <Loading />;
@@ -47,6 +61,35 @@ const LoginForm: React.FC = () => {
           </Button>
         </div>
       </form>
+
+      <div className="mt-4 text-center">
+        <p className="text-gray-500 mb-2">- OR -</p>
+        <Button 
+          type="button" 
+          variant="secondary" 
+          onClick={() => setShowScanner(!showScanner)}
+        >
+          {showScanner ? 'Hide QR Scanner' : 'Scan QR Code'}
+        </Button>
+      </div>
+
+      {showScanner && (
+        <div className="mt-4 overflow-hidden rounded-lg">
+          <QrReader
+            constraints={{ facingMode: 'environment' }}
+            onResult={handleScan}
+            scanDelay={500}
+            videoStyle={{ width: '100%' }}
+            videoContainerStyle={{ 
+              borderRadius: '0.5rem',
+              overflow: 'hidden',
+            }}
+          />
+          <p className="text-xs text-gray-500 mt-2 text-center">
+            Position the QR code in the center of the camera view
+          </p>
+        </div>
+      )}
     </div>
   );
 };
