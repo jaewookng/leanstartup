@@ -1,10 +1,10 @@
 import { SkinMetrics, User } from '../types';
 import { UserMode } from './UserModeContext';
 
-// Demo code for testing (random 5-letter all caps code)
+// Demo code for testing (updated sample code)
 export const demoUser: User = {
   id: '12345',
-  sampleCode: 'QWERT'
+  sampleCode: 'Q7T3V'
 };
 
 export const mockSkinData: SkinMetrics = {

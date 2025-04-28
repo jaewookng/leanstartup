@@ -39,7 +39,7 @@ const DashboardContent: React.FC = () => {
       <Header />
       
       <main className="flex-grow py-6 px-4 sm:px-6 max-w-7xl mx-auto w-full">
-        <h2 className="text-2xl font-bold mb-6">Your Skin Analysis</h2>
+        <h2 className="text-2xl font-bold mb-6">Your Skin Dashboard: {user.sampleCode}</h2>
         
         <div className="grid gap-6">
           <KeyMetrics 
