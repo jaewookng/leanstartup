@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-qr-reader": "^2.1.7",
     "autoprefixer": "^10.4.16",
     "chart.js": "^4.4.1",
     "next": "latest",
